@@ -47,20 +47,20 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
   const hasLowContrast = contrastRatio < 3
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <div>
-        <h3 className="font-semibold text-sm uppercase tracking-wide mb-4">Colors</h3>
-        <div className="flex flex-col gap-4">
+        <h3 className="font-semibold text-xs uppercase tracking-wide mb-3">Colors</h3>
+        <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-4">
             <Label htmlFor="fg-color" className="text-xs uppercase tracking-wide">Foreground</Label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2 h-8">
                   <div 
-                    className="w-5 h-5 rounded border border-border"
+                    className="w-4 h-4 rounded border border-border"
                     style={{ backgroundColor: customization.foregroundColor }}
                   />
-                  <Palette size={16} />
+                  <Palette size={14} />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-3">
@@ -79,12 +79,12 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
             <Label htmlFor="bg-color" className="text-xs uppercase tracking-wide">Background</Label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2 h-8">
                   <div 
-                    className="w-5 h-5 rounded border border-border"
+                    className="w-4 h-4 rounded border border-border"
                     style={{ backgroundColor: customization.backgroundColor }}
                   />
-                  <Palette size={16} />
+                  <Palette size={14} />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-3">
@@ -100,7 +100,7 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
           </div>
 
           {hasLowContrast && (
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="py-2">
               <AlertDescription className="text-xs">
                 Low contrast may reduce scannability
               </AlertDescription>
@@ -112,9 +112,9 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
       <Separator />
 
       <div>
-        <h3 className="font-semibold text-sm uppercase tracking-wide mb-4">Size & Margin</h3>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
+        <h3 className="font-semibold text-xs uppercase tracking-wide mb-3">Size & Margin</h3>
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <Label className="text-xs uppercase tracking-wide">QR Size</Label>
               <span className="text-xs font-mono text-muted-foreground">{customization.size}px</span>
@@ -123,12 +123,12 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
               value={[customization.size]}
               onValueChange={([value]) => onChange({ ...customization, size: value })}
               min={200}
-              max={600}
+              max={500}
               step={50}
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <Label className="text-xs uppercase tracking-wide">Quiet Zone</Label>
               <span className="text-xs font-mono text-muted-foreground">{customization.margin}</span>
@@ -147,8 +147,8 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
       <Separator />
 
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-sm uppercase tracking-wide">Center Logo</h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-xs uppercase tracking-wide">Center Logo</h3>
           <Switch
             checked={logoEnabled}
             onCheckedChange={handleLogoToggle}
@@ -156,7 +156,7 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
         </div>
 
         {logoEnabled && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <input
               ref={fileInputRef}
               type="file"
@@ -166,23 +166,24 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
             />
             
             {customization.logoImage ? (
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center gap-2.5">
                   <img 
                     src={customization.logoImage} 
                     alt="Logo preview"
-                    className="w-12 h-12 object-contain rounded border border-border"
+                    className="w-10 h-10 object-contain rounded border border-border"
                   />
                   <Button 
                     variant="outline" 
                     size="sm"
+                    className="h-8 text-xs"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     Change Logo
                   </Button>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <Label className="text-xs uppercase tracking-wide">Logo Scale</Label>
                     <span className="text-xs font-mono text-muted-foreground">
@@ -206,10 +207,10 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
             ) : (
               <Button 
                 variant="outline" 
-                className="w-full gap-2"
+                className="w-full gap-2 h-9"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <ImageIcon size={18} />
+                <ImageIcon size={16} />
                 Upload Logo
               </Button>
             )}
