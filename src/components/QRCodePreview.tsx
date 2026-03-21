@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QRCode from 'qrcode'
 import { motion } from 'framer-motion'
 import type { QRCustomization } from '@/lib/types'
@@ -10,58 +10,62 @@ interface QRCodePreviewProps {
 
 export function QRCodePreview({ content, customization }: QRCodePreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const logoRef = useRef<HTMLImageElement | null>(null)
-
-  useEffect(() => {
-    if (!canvasRef.current || !content) return
-
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    QRCode.toCanvas(canvas, content, {
-      width: customization.size,
-      margin: customization.margin,
-      color: {
-        dark: customization.foregroundColor,
-        light: customization.backgroundColor,
-      },
-      errorCorrectionLevel: 'H',
-    }, (error) => {
-      if (error) {
-        console.error('QR generation error:', error)
-        return
-      }
-
-      if (customization.logoImage && logoRef.current) {
-        const logo = logoRef.current
-        const logoSize = customization.size * customization.logoScale
-        const x = (customization.size - logoSize) / 2
-        const y = (customization.size - logoSize) / 2
-
-        ctx.fillStyle = customization.backgroundColor
-        ctx.fillRect(x - 4, y - 4, logoSize + 8, logoSize + 8)
-
-        ctx.drawImage(logo, x, y, logoSize, logoSize)
-      }
-    })
-  }, [content, customization])
+  const [logoImage, setLogoImage] = useState<HTMLImageElement | null>(null)
 
   useEffect(() => {
     if (customization.logoImage) {
       const img = new Image()
+      img.crossOrigin = 'anonymous'
       img.onload = () => {
-        logoRef.current = img
-        if (canvasRef.current) {
-          const event = new Event('logoLoaded')
-          canvasRef.current.dispatchEvent(event)
-        }
+        setLogoImage(img)
+      }
+      img.onerror = () => {
+        console.error('Failed to load logo image')
+        setLogoImage(null)
       }
       img.src = customization.logoImage
     } else {
-      logoRef.current = null
+      setLogoImage(null)
     }
   }, [customization.logoImage])
+
+  useEffect(() => {
+    const generateQR = async () => {
+      if (!canvasRef.current || !content) return
+
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+
+      try {
+        await QRCode.toCanvas(canvas, content, {
+          width: customization.size,
+          margin: customization.margin,
+          color: {
+            dark: customization.foregroundColor,
+            light: customization.backgroundColor,
+          },
+          errorCorrectionLevel: 'H',
+        })
+
+        if (customization.logoImage && logoImage) {
+          const logoSize = customization.size * customization.logoScale
+          const x = (customization.size - logoSize) / 2
+          const y = (customization.size - logoSize) / 2
+
+          const padding = 8
+          ctx.fillStyle = customization.backgroundColor
+          ctx.fillRect(x - padding, y - padding, logoSize + padding * 2, logoSize + padding * 2)
+
+          ctx.drawImage(logoImage, x, y, logoSize, logoSize)
+        }
+      } catch (error) {
+        console.error('QR generation error:', error)
+      }
+    }
+
+    generateQR()
+  }, [content, customization, logoImage])
 
   if (!content) {
     return (
