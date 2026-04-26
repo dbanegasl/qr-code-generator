@@ -83,10 +83,12 @@ export function QRCodePreview({ content, customization }: QRCodePreviewProps) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
+      className="w-full flex justify-center"
     >
       <canvas 
         ref={canvasRef}
-        className="rounded-lg shadow-lg"
+        className="rounded-lg shadow-lg max-w-full h-auto"
+        style={{ maxWidth: '500px' }}
       />
     </motion.div>
   )
