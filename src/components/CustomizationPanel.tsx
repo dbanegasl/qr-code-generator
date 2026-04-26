@@ -123,7 +123,7 @@ export function CustomizationPanel({ customization, onChange }: CustomizationPan
               value={[customization.size]}
               onValueChange={([value]) => onChange({ ...customization, size: value })}
               min={200}
-              max={500}
+              max={4000}
               step={50}
             />
           </div>
