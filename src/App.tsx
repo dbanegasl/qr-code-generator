@@ -117,7 +117,6 @@ function App() {
   return (
     <div className="min-h-screen bg-background">
       <Toaster position="top-center" />
-      
       <div className="container max-w-5xl mx-auto px-4 py-6 md:py-8">
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1" style={{ letterSpacing: '-0.02em' }}>
@@ -132,7 +131,7 @@ function App() {
           <div className="flex flex-col gap-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm uppercase tracking-wide">QR Type</CardTitle>
+                <CardTitle className="text-sm uppercase tracking-wide">QR TYPE</CardTitle>
               </CardHeader>
               <CardContent className="pb-4">
                 <Tabs value={activeType} onValueChange={(value) => setActiveType(value as QRType)}>
@@ -180,7 +179,7 @@ function App() {
 
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm uppercase tracking-wide">Customize</CardTitle>
+                <CardTitle className="text-sm uppercase tracking-wide">CUSTOMIZE</CardTitle>
               </CardHeader>
               <CardContent className="pb-4">
                 <CustomizationPanel
@@ -287,7 +286,7 @@ function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default App
