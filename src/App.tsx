@@ -130,7 +130,7 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
           <div className="flex flex-col gap-4">
             <Card>
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-sm uppercase tracking-wide">QR TYPE</CardTitle>
               </CardHeader>
               <CardContent className="pb-4">
@@ -178,7 +178,7 @@ function App() {
             </Card>
 
             <Card>
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-sm uppercase tracking-wide">CUSTOMIZE</CardTitle>
               </CardHeader>
               <CardContent className="pb-4">
@@ -204,16 +204,19 @@ function App() {
             {isGenerated ? (
               <>
                 <Card>
-                  <CardHeader className="pb-3">
+                  <CardHeader className="pb-2">
                     <CardTitle className="text-sm uppercase tracking-wide">
                       QR Code <span className="text-muted-foreground font-normal text-xs normal-case">preview</span>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex justify-center pb-4">
+                  <CardContent className="flex flex-col items-center pb-4">
                     <QRCodePreview
                       content={generatedContent}
                       customization={customization}
                     />
+                    <p className="text-xs text-muted-foreground mt-3">
+                      {customization.size}px
+                    </p>
                   </CardContent>
                 </Card>
 
@@ -242,7 +245,7 @@ function App() {
 
             {history && history.length > 0 && (
               <Card>
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-2">
                   <CardTitle className="text-sm uppercase tracking-wide flex items-center gap-2">
                     <ClockCounterClockwise size={18} />
                     Recent
@@ -250,7 +253,7 @@ function App() {
                 </CardHeader>
                 <CardContent className="pb-4">
                   <div className="flex flex-col gap-2">
-                    {history.slice(0, 3).map((config) => (
+                    {history.slice(0, 5).map((config) => (
                       <button
                         key={config.timestamp}
                         onClick={() => {
@@ -271,11 +274,8 @@ function App() {
                           {config.data.type === 'sms' && <ChatCircleText />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wide">
-                            {config.data.type}
-                          </p>
                           <p className="text-xs text-muted-foreground truncate font-mono">
-                            {formatQRContent(config.data).slice(0, 35)}...
+                            {formatQRContent(config.data).slice(0, 40)}...
                           </p>
                         </div>
                       </button>
