@@ -205,7 +205,9 @@ function App() {
               <>
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm uppercase tracking-wide">QR Code</CardTitle>
+                    <CardTitle className="text-sm uppercase tracking-wide">
+                      QR Code <span className="text-muted-foreground font-normal text-xs normal-case">preview</span>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="flex justify-center pb-4">
                     <QRCodePreview

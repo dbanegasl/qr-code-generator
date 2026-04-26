@@ -87,7 +87,14 @@ export function QRCodePreview({ content, customization }: QRCodePreviewProps) {
     >
       <canvas 
         ref={canvasRef}
-        className="rounded-lg shadow-lg max-w-full h-auto"
+        className="rounded-lg shadow-lg"
+        style={{ 
+          maxWidth: '300px', 
+          maxHeight: '300px',
+          width: '300px',
+          height: '300px',
+          objectFit: 'contain'
+        }}
       />
     </motion.div>
   )
